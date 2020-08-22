@@ -20,9 +20,9 @@ const TweetDetails = () => {
         }
       });
   }, [tweetId]);
-  return tweetsStatus == "idle" ? (
+  return tweetsStatus === "idle" ? (
     <Tweet tweet={tweet} />
-  ) : tweetsStatus == "loading" ? (
+  ) : tweetsStatus === "loading" ? (
     <div>loading</div>
   ) : (
     <div>error</div>

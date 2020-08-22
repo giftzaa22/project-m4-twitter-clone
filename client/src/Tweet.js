@@ -31,8 +31,8 @@ const Tweet = ({ tweet }) => {
             <MediaPic src={tweet.media.length > 0 ? tweet.media[0].url : ""} />
           </Link>
           <Author>
-            {" "}
-            {format(new Date(tweet.timestamp), "hh:mm a . MMMM dd yy ")}{" "}
+            {format(new Date(tweet.timestamp), "hh:mm a . MMMM dd yy ")}.Critter
+            web app
           </Author>
           {/*pass to tweet actions new proprs: id and isLied (coming from tweet variable)*/}
           <TweetActions id={tweet.id} LIKED={tweet.isLiked}>

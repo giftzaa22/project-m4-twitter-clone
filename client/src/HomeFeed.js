@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import CurrentUserContext from "./CurrentUserContext";
 import Tweet from "./Tweet";
 import styled from "styled-components";
+import PostTweet from "./PostTweet";
 
 const HomeFeed = () => {
   const { CurrentUser, setcurrentUser, status, setStatus } = useContext(
@@ -10,7 +11,7 @@ const HomeFeed = () => {
   const [tweets, setTweets] = useState([]);
   const [tweetsStatus, setTweetsStatus] = useState("loading");
 
-  React.useEffect(() => {
+  const fetchTweets = () => {
     fetch("/api/me/home-feed")
       .then((res) => res.json())
       .then((data) => {
@@ -23,6 +24,9 @@ const HomeFeed = () => {
           window.location.href = "/error";
         }
       });
+  };
+  React.useEffect(() => {
+    fetchTweets();
   }, []);
   const tweetDisplay =
     tweetsStatus === "idle" ? (
@@ -37,6 +41,7 @@ const HomeFeed = () => {
   return status === "idle" ? (
     <TweetFeed>
       <H1>HOME</H1>
+      <PostTweet fetchTweets={fetchTweets} />
       <div>TWEETFEED{tweetDisplay}</div>
     </TweetFeed>
   ) : status === "loading" ? (

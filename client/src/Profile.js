@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-import CurrentUserContext from "./CurrentUserContext";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import { COLORS } from "./constants";
@@ -16,6 +15,7 @@ const Profile = () => {
   const { profileId } = useParams();
   const [profile, setProfile] = useState(null);
   const [tweets, setTweets] = useState([]);
+  const [activeTab, setActiveTab] = useState("tweets");
   //  create a new local state for feed
   useEffect(() => {
     fetch(`/api/${profileId}/profile`)
@@ -101,6 +101,16 @@ const Profile = () => {
             <Copy2>{profile.profile.numFollowers}Followers</Copy2>
           </Wrapper3>
         </Wrapper2>
+        <ProfileInformation>
+          <Section>
+            <Button2 onClick={() => setActiveTab("tweets")}>tweets</Button2>
+            <Button2 onClick={() => setActiveTab("media")}>media</Button2>
+            <Button2 onClick={() => setActiveTab("likes")}>likes</Button2>
+          </Section>
+          {activeTab === "tweets" && <Tweets tweets={tweets} />}
+          {activeTab === "media" && <div>media</div>}
+          {activeTab === "likes" && <div>likes</div>}
+        </ProfileInformation>
         {tweets.map((tweet) => (
           <Tweet tweet={tweet} />
         ))}
@@ -108,6 +118,7 @@ const Profile = () => {
     );
   else return <span>loading</span>;
 };
+
 export default Profile;
 const Wrapper = styled.div`
   display: flex;
@@ -173,4 +184,42 @@ const Button = styled.button`
   padding: 4px;
   margin-left: 550px;
   margin-top: 30px;
+`;
+
+const ProfileInformation = styled.div`
+  display: flex;
+  flex-direction: column;
+  text-align: justify;
+  width: 120px;
+  background-color: white;
+  color: black;
+`;
+
+// const activeTab = styled.div`
+//   max-width: 100%;
+//   padding-bottom: 20px;
+//   min-height: 300px;
+//   background-size: cover;
+// `;
+
+const Tweets = styled.span`
+  color: blue;
+`;
+
+const Button2 = styled.button`
+  width: 120px;
+  background-color: ${COLORS.primary};
+  color: white;
+  border-radius: 15px;
+  padding: 4px;
+  margin-left: 550px;
+  margin-top: 30px;
+`;
+
+const Section = styled.span`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  padding-bottom: 30px;
 `;
