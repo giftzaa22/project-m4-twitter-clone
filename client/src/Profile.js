@@ -37,7 +37,34 @@ const Profile = () => {
     // when you get the data, res.json() and then use it in a local state
     // use this local state with your tweet component
   }, [profileId]);
-  console.log("error in line 23", profile);
+
+  const upDateProfile = () => {
+    fetch(`/api/${profileId}/profile`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setProfile(data);
+      });
+  };
+
+  const followToggle = () => {
+    fetch(`/api/${profileId}/follow`, { method: `PUT` })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          upDateProfile();
+        }
+      });
+  };
+  const unfollowToggle = () => {
+    fetch(`/api/${profileId}/unfollow`, { method: `PUT` })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          upDateProfile();
+        }
+      });
+  };
   if (profile)
     return (
       <Wrapper>
@@ -45,40 +72,42 @@ const Profile = () => {
           style={{ backgroundImage: `url(${profile.profile.bannerSrc})` }}
         />
         <Avatar src={profile.profile.avatarSrc} />
-        <Button>Follow</Button>
+        {profile.profile.isBeingFollowedByYou === true ? (
+          <Button onClick={unfollowToggle}>Following</Button>
+        ) : (
+          <Button onClick={followToggle}>Follow</Button>
+        )}
         <Wrapper2>
           <span>
             <strong>{profile.profile.displayName}</strong>
           </span>
           <Wrapper3>
             <Copy>@{profile.profile.handle}</Copy>
-            <Copy>Follows you </Copy>
+            <Copy2>Follows you </Copy2>
           </Wrapper3>
-          <h4>{profile.profile.bio}</h4>
-          <Wrapper4>
+          <Copy3>{profile.profile.bio}</Copy3>
+          <Wrapper3>
             <Copy>
               <Icon icon={pin} />
               {profile.profile.location}
             </Copy>
-            <Copy>
+            <Copy2>
               <Icon icon={calendar} />
               {profile.profile.joined}
-            </Copy>
-          </Wrapper4>
-          <Wrapper5>
+            </Copy2>
+          </Wrapper3>
+          <Wrapper3>
             <Copy>{profile.profile.numFollowing} Following</Copy>
-            <Copy>{profile.profile.numFollowers}Followers</Copy>
-          </Wrapper5>
+            <Copy2>{profile.profile.numFollowers}Followers</Copy2>
+          </Wrapper3>
         </Wrapper2>
         {tweets.map((tweet) => (
           <Tweet tweet={tweet} />
         ))}
       </Wrapper>
     );
-  // if (profile & tweet) return;
   else return <span>loading</span>;
 };
-// if ((params = currentUser.profile.handle))
 export default Profile;
 const Wrapper = styled.div`
   display: flex;
@@ -87,8 +116,6 @@ const Wrapper = styled.div`
   align-items: left;
   background-color: white;
   border: 0.5px solid ${COLORS.customgrey};
-  padding-bottom: 20px;
-  margin: 10px;
   position: relative;
 `;
 const Wrapper2 = styled.div`
@@ -96,25 +123,18 @@ const Wrapper2 = styled.div`
   flex-direction: column;
   justify-items: space-around;
   align-items: left;
-  margin-top: 5px;
+  margin-top: 10px;
 `;
 const Wrapper3 = styled.div`
+  margin-top: 10px;
+  margin-bottom: 5px;
   display: flex;
   flex-direction: row;
   text-align: justify;
-  margin: 0px;
-  /* border: 2px red solid; */
+  width: 50%;
+  justify-content: space-around;
 `;
-const Wrapper4 = styled.div`
-  display: flex;
-  flex-direction: row;
-  text-align: justify;
-`;
-const Wrapper5 = styled.div`
-  display: flex;
-  flex-direction: row;
-  text-align: justify;
-`;
+
 const Banner = styled.div`
   max-width: 100%;
   padding-bottom: 20px;
@@ -130,9 +150,19 @@ const Avatar = styled.img`
   border: 2px white solid;
 `;
 
-const Copy = styled.h5`
-  color: ${COLORS.mediumgrey};
-  margin-left: 10px;
+const Copy = styled.span`
+  color: darkgray;
+  margin-left: 5px;
+`;
+
+const Copy2 = styled.span`
+  color: darkgray;
+  margin-left: 25px;
+`;
+
+const Copy3 = styled.span`
+  color: darkslategray;
+  margin-left: 5px;
 `;
 
 const Button = styled.button`

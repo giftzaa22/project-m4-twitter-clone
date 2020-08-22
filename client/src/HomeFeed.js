@@ -12,11 +12,9 @@ const HomeFeed = () => {
 
   React.useEffect(() => {
     fetch("/api/me/home-feed")
-      //HIGHER ORDER FUNCTION?RES THEN DATA?
       .then((res) => res.json())
       .then((data) => {
         setTweets(data);
-        // When the data is received, the staus is changed to idle
         setTweetsStatus("idle");
       })
       .catch((error) => {
@@ -30,18 +28,17 @@ const HomeFeed = () => {
     tweetsStatus === "idle" ? (
       tweets.tweetIds.map((id) => {
         const tweet = tweets.tweetsById[id];
-        //add IF BEING FOLLOWED BY YOU?
 
         return <Tweet tweet={tweet} />;
       })
     ) : (
-      <div>"loading"</div>
+      <div>"TweetComponent"</div>
     );
   return status === "idle" ? (
-    <div>
+    <TweetFeed>
       <H1>HOME</H1>
-      <div>{tweetDisplay}</div>
-    </div>
+      <div>TWEETFEED{tweetDisplay}</div>
+    </TweetFeed>
   ) : status === "loading" ? (
     <div>loading</div>
   ) : (
@@ -54,8 +51,8 @@ const H1 = styled.h1`
   padding-left: 10px;
 `;
 
-// const TweetFeed = styled.div`
-//   padding-left: 10px;
-// `;
+const TweetFeed = styled.div`
+  padding-left: 10px;
+`;
 
 export default HomeFeed;

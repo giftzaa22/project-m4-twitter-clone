@@ -1,27 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Icon } from "react-icons-kit";
 import { bubble } from "react-icons-kit/icomoon/bubble";
 import { loop } from "react-icons-kit/icomoon/loop";
 import { heart } from "react-icons-kit/icomoon/heart";
 import { upload2 } from "react-icons-kit/icomoon/upload2";
-import { Link } from "react-router-dom";
+import { heartBroken } from "react-icons-kit/icomoon/heartBroken";
 
-const TweetActions = () => {
+//1 destructure new props id and isLiked
+// make heart icon full heart or empty based on isLiked prop
+// use a local state to keep track of is liked or not liked
+// use the local state set function to change isLiked to unliked
+//give this function to the onClick of heart icon
+const TweetActions = ({ id, liked }) => {
+  const [isLiked, setIsLiked] = useState(liked);
+
+  const handleLikeIcon = () => {
+    fetch(`/api/tweet/${id}/like`, {
+      method: "PUT",
+      body: JSON.stringify({ like: !isLiked }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then(() => setIsLiked(!isLiked))
+      .catch(console.error);
+  };
   return (
     <Wrapper>
-      <Link>
-        <Icon icon={bubble} />
-      </Link>
-      <Link>
-        <Icon icon={loop} />
-      </Link>
-      <Link>
-        <Icon icon={heart} />
-      </Link>
-      <Link>
-        <Icon icon={upload2} />
-      </Link>
+      <Icon icon={bubble} />
+      <Icon icon={loop} />
+      <Icon onClick={handleLikeIcon} icon={isLiked ? heart : heartBroken} />
+      <Icon icon={upload2} />
     </Wrapper>
   );
 };

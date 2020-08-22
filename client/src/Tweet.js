@@ -2,29 +2,47 @@ import React, { useState, Component } from "react";
 import styled from "styled-components";
 import TweetActions from "./TweetActions";
 import { COLORS } from "./constants";
+import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import { format } from "date-fns";
 
 const Tweet = ({ tweet }) => {
-  return (
+  let history = useHistory();
+  function handleClick(ev) {
+    ev.preventDefault();
+    history.push(`/profile/${tweet.author.handle}`);
+  }
+  return tweet ? (
     <Wrapper>
       <Div3>
         <Div1>
-          <Avatar src={tweet.author.avatarSrc} />
+          <Avatar src={tweet.author.avatarSrc} onClick={handleClick} />
           <Div2>
-            <Author2>
+            <Author2 onClick={handleClick}>
               <strong> {tweet.author.displayName} </strong>
             </Author2>
-            <Author>@ {tweet.author.handle} </Author>
+
+            <Author onClick={handleClick}>@ {tweet.author.handle} </Author>
           </Div2>
         </Div1>
         <Div4>
-          <Author> {tweet.status} </Author>
-
-          <MediaPic src={tweet.media.length > 0 ? tweet.media[0].url : ""} />
-          <Author> {tweet.timestamp} </Author>
-          <TweetActions>Tweet bar actions icons</TweetActions>
+          <Author3> {tweet.status} </Author3>
+          <Link to={`/tweet/${tweet.id}`}>
+            <MediaPic src={tweet.media.length > 0 ? tweet.media[0].url : ""} />
+          </Link>
+          <Author>
+            {" "}
+            {format(new Date(tweet.timestamp), "hh:mm a . MMMM dd yy ")}{" "}
+          </Author>
+          {/*pass to tweet actions new proprs: id and isLied (coming from tweet variable)*/}
+          <TweetActions id={tweet.id} LIKED={tweet.isLiked}>
+            Tweet bar actions icons
+          </TweetActions>
         </Div4>
       </Div3>
     </Wrapper>
+  ) : (
+    <div>loading</div>
   );
 };
 
@@ -39,6 +57,7 @@ const Wrapper = styled.div`
   background-color: white;
   border: 0.5px solid ${COLORS.customgrey};
   padding-bottom: 20px;
+  text-decoration: none;
 `;
 
 const Div1 = styled.div`
@@ -86,9 +105,16 @@ const MediaPic = styled.img`
 `;
 
 const Author2 = styled.span`
-  font-size: 0.6rem;
+  font-size: 1rem;
+  color: black;
+`;
+
+const Author3 = styled.span`
+  font-size: 1.5rem;
+  color: black;
 `;
 
 const Author = styled.span`
-  font-size: 0.4 rem;
+  font-size: 1rem;
+  color: darkgray;
 `;
