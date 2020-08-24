@@ -1,4 +1,4 @@
-import React, { useState, Component } from "react";
+import React from "react";
 import styled from "styled-components";
 import TweetActions from "./TweetActions";
 import { COLORS } from "./constants";
@@ -70,7 +70,7 @@ const Div1 = styled.div`
 
 const Div2 = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
   align-content: center;
   background-color: white;

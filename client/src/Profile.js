@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import { COLORS } from "./constants";
@@ -106,10 +106,11 @@ const Profile = () => {
             <Button2 onClick={() => setActiveTab("tweets")}>tweets</Button2>
             <Button2 onClick={() => setActiveTab("media")}>media</Button2>
             <Button2 onClick={() => setActiveTab("likes")}>likes</Button2>
+
+            {activeTab === "tweets" && <Tweets tweets={tweets} />}
+            {activeTab === "media"}
+            {activeTab === "likes"}
           </Section>
-          {activeTab === "tweets" && <Tweets tweets={tweets} />}
-          {activeTab === "media" && <div>media</div>}
-          {activeTab === "likes" && <div>likes</div>}
         </ProfileInformation>
         {tweets.map((tweet) => (
           <Tweet tweet={tweet} />
@@ -187,33 +188,29 @@ const Button = styled.button`
 `;
 
 const ProfileInformation = styled.div`
-  display: flex;
-  flex-direction: column;
-  text-align: justify;
-  width: 120px;
   background-color: white;
   color: black;
+  margin: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  list-style-type: none;
+  -webkit-padding-start: 0;
 `;
 
-// const activeTab = styled.div`
-//   max-width: 100%;
-//   padding-bottom: 20px;
-//   min-height: 300px;
-//   background-size: cover;
-// `;
-
-const Tweets = styled.span`
+const Tweets = styled.div`
   color: blue;
 `;
 
 const Button2 = styled.button`
-  width: 120px;
-  background-color: ${COLORS.primary};
-  color: white;
-  border-radius: 15px;
-  padding: 4px;
-  margin-left: 550px;
+  width: 150px;
+  color: lightslategray;
+  padding: 10px;
+  margin-left: 100px;
+  justify-content: space-around;
   margin-top: 30px;
+  border: none;
+  background: none;
 `;
 
 const Section = styled.span`

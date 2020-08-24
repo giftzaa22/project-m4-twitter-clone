@@ -5,9 +5,7 @@ import styled from "styled-components";
 import PostTweet from "./PostTweet";
 
 const HomeFeed = () => {
-  const { CurrentUser, setcurrentUser, status, setStatus } = useContext(
-    CurrentUserContext
-  );
+  const { status } = useContext(CurrentUserContext);
   const [tweets, setTweets] = useState([]);
   const [tweetsStatus, setTweetsStatus] = useState("loading");
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 const PostTweet = (props) => {
@@ -41,10 +41,10 @@ const PostTweet = (props) => {
       {error && <div>{errorMessage}</div>}
       <form onSubmit={handleSubmitTweet}>
         <Wrapper>
-          {/* <Avatar src={tweet.author.avatarSrc} /> */}
           <TextArea
             type="text"
             name="content"
+            placeholder="What's Happening?"
             value={currentTweet}
             onChange={handleOnChange}
           ></TextArea>
@@ -68,12 +68,14 @@ const Button = styled.button`
 const TextArea = styled.textarea`
   height: 300px;
   width: 800px;
+  font-size: 25px;
+  font-family: "Times New Roman", Times, serif;
 `;
 
-const Avatar = styled.img`
-  max-width: 60px;
-  border-radius: 50%;
-`;
+// const Avatar = styled.img`
+//   max-width: 60px;
+//   border-radius: 50%;
+// `;
 
 const Wrapper = styled.div`
   display: flex;

@@ -3,9 +3,9 @@ import styled from "styled-components";
 import { Icon } from "react-icons-kit";
 import { bubble } from "react-icons-kit/icomoon/bubble";
 import { loop } from "react-icons-kit/icomoon/loop";
-import { heart } from "react-icons-kit/icomoon/heart";
+import { ic_favorite } from "react-icons-kit/md/ic_favorite";
 import { upload2 } from "react-icons-kit/icomoon/upload2";
-import { heartBroken } from "react-icons-kit/icomoon/heartBroken";
+import { ic_favorite_border } from "react-icons-kit/md/ic_favorite_border";
 
 //1 destructure new props id and isLiked
 // make heart icon full heart or empty based on isLiked prop
@@ -31,7 +31,10 @@ const TweetActions = ({ id, liked }) => {
     <Wrapper>
       <Icon icon={bubble} />
       <Icon icon={loop} />
-      <Icon onClick={handleLikeIcon} icon={isLiked ? heart : heartBroken} />
+      <Icon
+        onClick={handleLikeIcon}
+        icon={isLiked ? ic_favorite : ic_favorite_border}
+      />
       <Icon icon={upload2} />
     </Wrapper>
   );

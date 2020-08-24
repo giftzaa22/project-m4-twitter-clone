@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import { ReactComponent as Logo } from "./assets/logo.svg";
 import { Icon } from "react-icons-kit";
 import { bell } from "react-icons-kit/feather/bell";
@@ -11,7 +11,7 @@ import styled from "styled-components";
 import CurrentUserContext from "./CurrentUserContext";
 
 const Sidebar = () => {
-  const { setCurrentUser, currentUser } = useContext(CurrentUserContext);
+  const { currentUser } = useContext(CurrentUserContext);
 
   return (
     <Wrapper>
